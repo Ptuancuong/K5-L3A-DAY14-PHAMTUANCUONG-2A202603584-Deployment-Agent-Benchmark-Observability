@@ -25,6 +25,9 @@ RUN chown -R agent:agent /app
 
 USER agent
 
+# User `agent` có home là /app nên Python tìm package ở /app/.local; package lại được copy vào
+# /home/agent/.local → phải trỏ PYTHONUSERBASE tới đó, nếu không container crash "No module named uvicorn".
+ENV PYTHONUSERBASE=/home/agent/.local
 ENV PATH=/home/agent/.local/bin:$PATH
 ENV PYTHONPATH=/app
 ENV PYTHONDONTWRITEBYTECODE=1
